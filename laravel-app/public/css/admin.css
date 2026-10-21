@@ -1,0 +1,27 @@
+.admin-body { min-width: 320px; min-height: 100vh; background: radial-gradient(ellipse at 50% 0%, #252333 0, #101014 55%); }
+.admin-shell { width: min(100% - 36px, 920px); min-height: 100vh; margin: 0 auto; padding: 28px 0 50px; }
+.admin-header { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.admin-header .brand { margin: 0; }
+.admin-header-actions { display: flex; align-items: center; gap: 10px; }
+.admin-header-actions form { margin: 0; }
+.admin-page-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 35px 0 22px; }
+.admin-page-heading h1 { margin: 8px 0 0; font-family: Manrope,sans-serif; font-size: 30px; letter-spacing: -.8px; }
+.admin-page-heading p { margin: 7px 0 0; color: var(--muted); font-size: 11px; }
+.admin-song-list { margin-top: 18px; border-top: 1px solid var(--line); }
+.admin-song-row { display: grid; grid-template-columns: 48px minmax(0,1fr) auto auto; align-items: center; gap: 13px; min-height: 72px; padding: 9px 4px; border-bottom: 1px solid var(--line); }
+.admin-song-cover { display: grid; width: 46px; height: 46px; place-items: center; overflow: hidden; border-radius: 6px; color: var(--accent); background: linear-gradient(145deg,#353248,#485e51); font-size: 21px; }
+.admin-song-cover img { width: 100%; height: 100%; object-fit: cover; }
+.admin-song-info { min-width: 0; }
+.admin-song-info strong, .admin-song-info span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.admin-song-info strong { font-size: 11px; }
+.admin-song-info span { margin-top: 5px; color: var(--muted); font-size: 9px; }
+.admin-song-row form { margin: 0; }
+.admin-song-row .delete-account-button { min-height: 34px; margin: 0; }
+.admin-pagination { padding-top: 20px; }
+.admin-pagination nav { display: flex; justify-content: center; }
+.admin-pagination nav > div:first-child { display: none; }
+.admin-pagination nav > div:last-child > div { display: flex; gap: 4px; }
+.admin-pagination a, .admin-pagination span { display: grid; min-width: 32px; height: 32px; place-items: center; padding: 0 8px; border: 1px solid var(--line); border-radius: 5px; color: var(--muted); font-size: 10px; }
+.admin-pagination span[aria-current=page] span { color: #171a12; background: var(--accent); }
+.admin-pagination a:hover { color: var(--accent); }
+@media (max-width: 520px) { .admin-shell { width: calc(100% - 26px); padding-top: 17px; }.admin-header-actions { gap: 6px; }.admin-header-actions .outline-button,.admin-header-actions .cancel-button { padding: 0 8px; font-size: 9px; }.admin-page-heading { align-items: flex-start; flex-direction: column; padding-top: 25px; }.admin-page-heading h1 { font-size: 25px; }.admin-song-row { grid-template-columns: 40px minmax(0,1fr) auto; gap: 8px; }.admin-song-cover { width: 38px; height: 38px; }.admin-song-row .outline-button { grid-column: 2; justify-self: start; }.admin-song-row form { grid-column: 3; grid-row: 2; } }
