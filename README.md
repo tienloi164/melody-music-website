@@ -1,73 +1,121 @@
-# Melody trên Laravel và Laragon
+# Melody — Website nghe nhạc
 
-Ứng dụng Laravel nằm trong thư mục `laravel-app`. Website HTML tĩnh ở thư mục gốc vẫn được giữ nguyên; hãy chạy ứng dụng trong `laravel-app` để dùng cơ sở dữ liệu, đăng nhập và phân quyền.
+Melody là website nghe nhạc xây dựng bằng Laravel. Người dùng có thể đăng ký, đăng nhập, nghe nhạc, quản lý tài khoản và lưu bài hát yêu thích. Quản trị viên quản lý thư viện, tải tệp nhạc/ảnh bìa và nhập lời karaoke đồng bộ.
 
-## Chạy website sau khi mở hoặc khởi động lại máy
+## Công nghệ
 
-1. Mở Laragon, bấm **Chạy** (hoặc **Start All**) và đợi MySQL khởi động.
-2. Mở **Terminal** trong Laragon. Trong cửa sổ CMD, nhập lệnh sau và nhấn Enter:
+- PHP 8.3 trở lên, Laravel 13
+- MySQL
+- HTML, CSS và JavaScript
+- Laragon được dùng làm môi trường phát triển trong hướng dẫn Windows
 
-   ```cmd
-   cd /d "C:\Users\letie\OneDrive\Desktop\doan\laravel-app"
-   ```
+## Cài đặt và chạy trên máy khác (Windows + Laragon)
 
-3. Khởi động Laravel:
+### 1. Chuẩn bị
 
-   ```cmd
-   php artisan serve --host=127.0.0.1 --port=8000
-   ```
+Cài Git, Laragon có PHP 8.3 trở lên, Composer và MySQL. Mở Laragon, bấm **Start All** để khởi động các dịch vụ.
 
-4. Khi CMD hiện `Server running on [http://127.0.0.1:8000]`, mở `http://127.0.0.1:8000` trong trình duyệt. Giữ cửa sổ CMD này mở trong lúc dùng website; đóng cửa sổ sẽ dừng máy chủ.
+### 2. Tải mã nguồn
 
-Mỗi lần mở lại website chỉ cần khởi động Laragon và chạy lệnh `php artisan serve`. Không cần chạy migration hoặc seeder lại.
+Mở Terminal của Laragon hoặc CMD. Chọn thư mục muốn lưu dự án (ví dụ Desktop), rồi chạy:
 
-Khi nhận bản cập nhật có migration mới, chạy một lần `php artisan migrate` trong Terminal tại `laravel-app`, sau đó khởi động lại máy chủ.
+```cmd
+cd /d "%USERPROFILE%\Desktop"
+git clone https://github.com/tienloi164/melody-music-website.git
+cd melody-music-website\laravel-app
+```
 
-## Cài đặt database lần đầu
+Nếu đã tải mã nguồn về máy, chỉ cần mở Terminal và chuyển vào thư mục `laravel-app` bên trong vị trí bạn đã lưu dự án. Ví dụ:
 
-File `.env` đã cấu hình MySQL theo mặc định Laragon: `127.0.0.1:3306`, user `root`, mật khẩu trống. Nếu cấu hình MySQL của bạn khác, sửa các biến `DB_*` trong `laravel-app/.env`.
+```cmd
+cd /d "D:\duong-dan-cua-ban\melody-music-website\laravel-app"
+```
 
-1. Mở **Cơ sở dữ liệu** trong Laragon để vào HeidiSQL. Chọn session `Laragon.MySQL` và bấm **Open**. Nếu HeidiSQL báo database `melody` đã tồn tại, bấm **OK** — database đã được tạo, không cần tạo lại.
-2. Trong Terminal CMD của Laragon, chạy từng lệnh:
+Thay đường dẫn mẫu bằng vị trí thực tế trên máy; không cần dùng đường dẫn máy của người phát triển.
 
-   ```cmd
-   cd /d "C:\Users\letie\OneDrive\Desktop\doan\laravel-app"
-   ```
+### 3. Cài Laravel và cấu hình database
 
-   ```cmd
-   php artisan migrate
-   ```
+Trong Terminal đang ở thư mục `laravel-app`, chạy từng lệnh:
 
-3. Để thêm bài mẫu “Bông Hoa Đẹp Nhất” của Quân A.P, chạy:
+```cmd
+composer install
+```
 
-   ```cmd
-   php artisan db:seed
-   ```
+```cmd
+copy .env.example .env
+```
 
-Seeder có thể chạy lại mà không tạo bản sao bài hát. Khi hoàn tất, làm theo mục “Chạy website” ở trên.
+```cmd
+php artisan key:generate
+```
 
-## Tài khoản và phân quyền
+Trong Laragon, mở HeidiSQL và tạo database tên `melody` (kiểu mã hóa mặc định `utf8mb4`). Mở file `laravel-app\.env` bằng trình soạn thảo và kiểm tra cấu hình database phù hợp với MySQL của máy:
 
-- Đăng ký tài khoản tại `http://127.0.0.1:8000/register`, đăng nhập tại `/login`, và quản lý hồ sơ tại `/account`.
-- Tài khoản mới mặc định là `user`: được nghe nhạc và lưu yêu thích. Danh sách yêu thích được lưu riêng trong MySQL cho từng tài khoản.
-- Để cấp quyền admin, hãy đăng ký tài khoản trước. Mở **Terminal mới** trong Laragon (giữ cửa sổ đang chạy website mở), rồi chạy:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=melody
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-   ```cmd
-   cd /d "C:\Users\letie\OneDrive\Desktop\doan\laravel-app"
-   php artisan melody:make-admin email-cua-ban@example.com
-   ```
+Nếu MySQL của bạn có mật khẩu hoặc username khác, sửa các giá trị tương ứng trong `.env`. Không tải file `.env` lên GitHub.
 
-  Thay email mẫu bằng email tài khoản đã đăng ký; nhập `yes` để xác nhận. Sau đó đăng xuất và đăng nhập lại.
-- Admin quản lý bài hát tại mục **Quản lý nhạc** hoặc đường dẫn `/admin/songs`. Backend kiểm tra quyền admin cho các thao tác thêm, sửa, xóa.
-- Khi thêm bài hát, admin chọn tệp nhạc trên máy (MP3, WAV, OGG, M4A hoặc AAC, tối đa 50 MB); ảnh bìa JPG, PNG hoặc WEBP (tối đa 5 MB) là tùy chọn. Nếu sửa bài hát mà không chọn tệp mới, tệp hiện tại được giữ nguyên.
-- Sau khi cập nhật website lần đầu, tạo liên kết để trình duyệt đọc được tệp đã tải lên bằng lệnh `php artisan storage:link` tại thư mục `laravel-app`. Tệp được lưu trong `laravel-app/storage/app/public`.
-- Bài YouTube demo đã có trong thư viện vẫn phát qua trình nhúng chính thức; video chỉ phát được nếu chủ video cho phép nhúng.
-- Lời bài hát karaoke do admin nhập trong form bài hát theo định dạng mỗi dòng `[phút:giây]Lời bài hát`, ví dụ `[00:12]Một câu hát`. Melody lưu các mốc thời gian và làm sáng lời đồng bộ khi nhạc chạy. Website không tự lấy lời từ YouTube; chỉ nhập lời bạn có quyền sử dụng.
+### 4. Tạo bảng và liên kết lưu tệp
+
+Quay lại Terminal, đảm bảo đang ở thư mục `laravel-app`, rồi chạy:
+
+```cmd
+php artisan migrate
+```
+
+```cmd
+php artisan db:seed
+```
+
+```cmd
+php artisan storage:link
+```
+
+Seeder thêm bài demo YouTube “Bông Hoa Đẹp Nhất” nếu chưa có. YouTube phát bằng trình nhúng chính thức và tùy thuộc vào việc chủ video có cho phép nhúng hay không.
+
+### 5. Khởi động website
+
+```cmd
+php artisan serve --host=127.0.0.1 --port=8000
+```
+
+Mở `http://127.0.0.1:8000` trong trình duyệt. Giữ cửa sổ Terminal mở khi sử dụng website; đóng Terminal sẽ dừng máy chủ. Khi chạy lại sau này, mở Laragon, vào thư mục `laravel-app` và chạy lại lệnh `php artisan serve`.
+
+## Tài khoản và quyền quản trị
+
+- Đăng ký tại `/register`, đăng nhập tại `/login`; trang quản lý hồ sơ ở `/account`.
+- Tài khoản mới mặc định là người dùng thường, có thể nghe nhạc và lưu yêu thích.
+- Để cấp quyền admin, đăng ký tài khoản trước. Trong Terminal thứ hai tại thư mục `laravel-app`, chạy:
+
+  ```cmd
+  php artisan melody:make-admin email-cua-ban@example.com
+  ```
+
+  Thay email mẫu bằng email đã đăng ký và xác nhận `yes`. Sau đó đăng xuất rồi đăng nhập lại. Trang quản trị bài hát nằm tại `/admin/songs`.
+
+## Quản lý bài hát và karaoke
+
+- Admin chọn tệp nhạc MP3, WAV, OGG, M4A hoặc AAC (tối đa 50 MB); ảnh bìa JPG, PNG hoặc WEBP (tối đa 5 MB) là tùy chọn.
+- Khi sửa bài hát, nếu không chọn tệp mới thì tệp đã có được giữ nguyên.
+- Nhập lời karaoke theo từng dòng `[phút:giây]Lời bài hát`, ví dụ `[00:12]Một câu hát`. Mốc thời gian cần xếp theo thứ tự tăng dần.
+- Chỉ nhập lời mà bạn có quyền sử dụng; website không tự lấy lời bài hát từ YouTube.
 
 ## Kiểm thử
 
-Trong Terminal tại `laravel-app`, chạy:
+Tại thư mục `laravel-app`, chạy:
 
 ```cmd
 php artisan test
 ```
+
+## Cấu trúc thư mục
+
+- `laravel-app/` — ứng dụng Laravel chính.
+- `index.html`, `styles.css`, `app.js` — giao diện HTML tĩnh ban đầu.
